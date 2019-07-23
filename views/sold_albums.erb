@@ -1,12 +1,12 @@
 <h1>All Sales Vinyl</h1>
 
-<h3>Available Records</h3>
+<h3>Sold Records</h3>
 
-<% if @albums.any? %>
+<% if @sold_albums.any? %>
   <ul>
-    <% @albums.each do |album| %>
+    <% @sold_albums.each do |album| %>
       <li>
-        <a href="/albums/<%= album.id %>"><%= album.name %> - <%= album.artist %> - <%= album.year %></a>
+        <a href="/albums/<%= album.id %>"><%= album.name %></a>
     </li>
     <% end %>
   </ul>
@@ -16,4 +16,4 @@
 
 <a href="/albums/new">Add a new album</a><br>
 <a href="/albums/search">Search for an album</a><br>
-<a href="/sold_albums">Sold albums</a>
+<p><a href="/albums">Return to album list</a></p>

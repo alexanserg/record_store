@@ -94,4 +94,17 @@ describe '#Album' do
       expect(Album.all).to(eq([album2, album, album3]))
     end
   end
+
+  describe('#sold') do
+    it("marks albums as sold") do
+      album = Album.new("Giant Steps", 1960, ["Jazz"], "John Coltrane")
+      album.save()
+      album2 = Album.new("Blue", 1971, ["Folk rock", "Pop"], "Joni Mitchell")
+      album2.save()
+      album.sold()
+      expect(Album.all).to(eq([album2]))
+      expect(Album.all_sold).to(eq([album]))
+    end
+  end
+
 end

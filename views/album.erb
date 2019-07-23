@@ -1,4 +1,10 @@
-<h4>Album Name: <%= @album.name %></h4>
+<h2>Album: <%= @album.name %></h2>
+<h4>Artist: <%= @album.artist %></h4>
+<h4>Year: <%= @album.year %></h4>
+<h4>Genres: <%= @album.genres.join(", ") %></h4>
 
+<form action="/buy/<%= @album.id %>" method="post">
+  <button type="submit">Buy Album</button>
+</form>
 <p><a href="/albums/<%= @album.id %>/edit">Edit album</a></p>
 <a href="/albums">Return to album list</a>

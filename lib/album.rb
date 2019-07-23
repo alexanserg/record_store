@@ -2,6 +2,7 @@ class Album
   attr_accessor :id, :name, :year, :genres, :artist #Our new save method will need reader methods.
 
   @@albums = {}
+  @@sold_albums = {}
   @@total_rows = 0 # We've added a class variable to keep track of total rows and increment the value when an ALbum is added.
 
   def initialize(name, year, genres, artist, id = nil) # We've added id as a second parameter.
@@ -14,6 +15,10 @@ class Album
 
   def self.all
     @@albums.values()
+  end
+
+  def self.all_sold
+    @@sold_albums.values()
   end
 
   def save
@@ -30,7 +35,8 @@ class Album
   end
 
   def sold
-
+    @@sold_albums[self.id] = self
+    self.delete()
   end
 
   def self.clear

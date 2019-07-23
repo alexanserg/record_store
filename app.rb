@@ -4,7 +4,17 @@ require('./lib/album')
 require('pry')
 also_reload('lib/**/*.rb')
 
+first_run = true
+
+
 get ('/') do
+  if first_run
+    Album.new("Giant Steps", 1960, ["Jazz"], "John Coltrane").save()
+    Album.new("Blue", 1971, ["Folk rock", "Pop"], "Joni Mitchell").save()
+    Album.new("Green", 1972, ["Acid Jazz"], "Joni Mitchell").save()
+    first_run = false
+  end
+
   @albums = Album.all
   erb(:albums)
 end
@@ -14,16 +24,16 @@ get ('/albums') do
   erb(:albums)
 end
 
+get ('/sold_albums') do
+  @sold_albums = Album.all_sold
+  erb(:sold_albums)
+end
+
 get ('/albums/new') do
   "This will take us to a page with a form for adding a new album."
   erb(:new_album)
 end
 
-# get ('/albums/:id') do
-#   "This route will show a specific album based on its ID. The value of ID here is #{params[:id]}."
-#   @album = Album.find(params[:id].to_i())
-#   erb(:album)
-# end
 
 post ('/albums') do
   name, year, genres, artist = params.values
@@ -34,6 +44,12 @@ post ('/albums') do
   erb(:albums)
 end
 
+get ('/albums/:id') do
+  "This route will show a specific album based on its ID. The value of ID here is #{params[:id]}."
+  @album = Album.find(params[:id].to_i())
+  erb(:album)
+end
+
 get ('/albums/:id/edit') do
   @album = Album.find(params[:id].to_i())
   erb(:edit_album)
@@ -41,7 +57,6 @@ end
 
 get('/albums/search') do
   erb(:albums_search)
-
 end
 
 post('/albums_search') do
@@ -67,4 +82,10 @@ patch ('/albums/:id') do
   @album.update(params[:name])
   @albums = Album.all
   erb(:albums)
+end
+
+post ('/buy/:id') do
+  @album = Album.find(params[:id].to_i)
+  @album.sold()
+  redirect to ('/sold_albums')
 end
