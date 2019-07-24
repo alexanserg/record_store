@@ -1,3 +1,5 @@
+# require 'song'
+
 class Album
   attr_accessor :id, :name, :year, :genres, :artist #Our new save method will need reader methods.
 
@@ -5,7 +7,7 @@ class Album
   @@sold_albums = {}
   @@total_rows = 0 # We've added a class variable to keep track of total rows and increment the value when an ALbum is added.
 
-  def initialize(name, year, genres, artist, id = nil) # We've added id as a second parameter.
+  def initialize(name, year=nil, genres=nil, artist=nil, id = nil) # We've added id as a second parameter.
     @name = name
     @year = year
     @genres = genres
@@ -22,8 +24,7 @@ class Album
   end
 
   def save
-    # @@albums[self.id] = Album.new(self.name, self.year, self.genres, self.artist, self.id)
-    @@albums[self.id] = self
+    @@albums[self.id] = Album.new(self.name, self.year, self.genres, self.artist, self.id)
     Album.sort()
   end
 
@@ -59,13 +60,17 @@ class Album
     @@albums = sorted_albums.to_h
   end
 
-  def update(name)
-    self.name = name
-    # @@albums[@id] = Album.new(self.name, self.year, self.genres, self.artist, @id)
+  def update(new_name, new_year)
+    self.name = new_name
+    self.year = new_year
+    @@albums[@id] = Album.new(self.name, self.year, self.genres, self.artist, @id)
   end
 
   def delete
     @@albums.delete(@id)
   end
 
+  def songs
+    Song.find_by_album(self.id)
+  end
 end

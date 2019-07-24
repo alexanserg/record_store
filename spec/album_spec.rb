@@ -57,8 +57,10 @@ describe '#Album' do
     it("updates an album by id") do
       album = Album.new("Giant Steps", 1960, ["Jazz"], "John Coltrane")
       album.save()
-      album.update("A Love Supreme")
-      expect(album.name).to(eq("A Love Supreme"))
+      album.update("A Love Supreme", 1961)
+      # binding.pry
+      expect(Album.find(1).name).to(eq("A Love Supreme"))
+      expect(Album.find(1).year).to(eq(1961))
     end
   end
 
@@ -104,6 +106,18 @@ describe '#Album' do
       album.sold()
       expect(Album.all).to(eq([album2]))
       expect(Album.all_sold).to(eq([album]))
+    end
+  end
+
+  describe('#songs') do
+    it("returns an album's songs") do
+      album = Album.new("Giant Steps", nil)
+      album.save()
+      song = Song.new("Naima", album.id, nil)
+      song.save()
+      song2 = Song.new("Cousin Mary", album.id, nil)
+      song2.save()
+      expect(album.songs).to(eq([song, song2]))
     end
   end
 

@@ -4,3 +4,5 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'rspec'
 gem 'pry'
+gem 'pivotal_git_scripts'
+gem('capybara')
